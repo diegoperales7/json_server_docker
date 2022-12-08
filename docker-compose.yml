@@ -1,0 +1,20 @@
+version: "3"
+services:
+  app:
+    container_name: app-container
+    build: ./app-image
+    image: app-image
+    restart: always
+    environment:
+      - DB_HOST=json-server
+    ports:
+      - "4001:4001"
+  json-server:
+    container_name: json-server-container
+    build: ./json-server-image
+    image: json-server-image
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./db/db.json:/data/db.json
+    command: json-server --watch /data/db.json --host 0.0.0.0
